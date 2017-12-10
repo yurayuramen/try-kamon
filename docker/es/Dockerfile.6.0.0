@@ -1,0 +1,14 @@
+FROM docker.elastic.co/elasticsearch/elasticsearch:6.0.0
+
+COPY elasticsearch.yml /usr/share/elasticsearch/config
+
+COPY license.json /usr/share/elasticsearch
+
+# Linuxカーネルパラメータの調整
+# 
+# sysctl -w vm.max_map_count=262144
+# 
+# curl -XPUT -u elastic 'http://localhost:9200/_xpack/license?acknowledge=true' -H "Content-Type: application/json" -d @/usr/share/elasticsearch/license.json
+# 
+# http://localhost:9200/_xpack/license?pretty
+# 

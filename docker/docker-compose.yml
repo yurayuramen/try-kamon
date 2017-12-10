@@ -1,0 +1,47 @@
+version: '2'
+services:
+  fluent:
+    build: fluentd
+    image: try-kamon-fluent
+    container_name: try-kamon-fluent
+    environment:
+      TZ: "Japan"
+      FLUENTD_OPT: "-vvvvvvvvvv"
+    ports:
+      - "24224:24224"
+      - "24220:24220"
+    volumes:
+      - "./volumes/log-fluentd:/var/log/fluent"
+  es:
+    build: 
+      context: es
+      dockerfile: Dockerfile.${EK_VERSION}
+    image: try-kamon-es:ek-${EK_VERSION}
+    container_name: try-kamon-es-${EK_VERSION}
+    environment:
+      TZ: "Japan"
+      ELASTIC_PASSWORD: MagicWord
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - "./volumes/esdata:/usr/share/elasticsearch/data"
+      - "./volumes/es-snapshot:/usr/share/elasticsearch/snapshot"
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${EK_VERSION}
+    #image: docker.elastic.co/kibana/kibana:6.0.0
+    container_name: try-kamon-kibana-${EK_VERSION}
+    environment:
+      TZ: "Japan"
+      ELASTICSEARCH_URL: http://es:9200
+    ports:
+      - "5601:5601"
+  head:
+    image: mobz/elasticsearch-head:5
+    container_name: try-kamon-head
+    environment:
+      TZ: "Japan"
+    cpu_quota: 50000
+    ports:
+      - "9100:9100"
+      

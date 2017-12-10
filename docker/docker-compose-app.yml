@@ -1,0 +1,18 @@
+version: '2'
+services:
+  app:
+    build: app
+    container_name: try-kamon-app
+    environment:
+      TZ: "Japan"
+      JAVA_OPTS: "-javaagent:./lib/aspectjweaver-1.8.10.jar"
+    ports:
+      - "9000:9000"
+    working_dir: "/usr/local/app"
+    cpu_quota: 50000
+    volumes:
+    - "../target/universal/stage:/usr/local/app"
+    command: ["bash" , "-c" ,"rm -f /usr/local/app/RUNNING_PID ; bash ./bin/try-kamon -Dkamon.fluentd.hostname=fluent"]
+    
+
+    
