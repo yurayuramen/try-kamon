@@ -28,7 +28,7 @@ sudo chown -R 1000 docker/volumes
 
 * ライセンスファイルをインストール
 
-```
+```bash
 # elasticsearchのdockerコンテナのみ起動
 cd docker
 docker-compose up -d es
@@ -45,8 +45,7 @@ docker-compose exec es curl -XPUT -u elastic 'http://localhost:9200/_xpack/licen
 # 起動
 ## 開発モードで起動する
 
-```
-
+```bash
 # play起動
 export SBT_OPTS=-javaagent:./lib/aspectjweaver-1.8.10.jar
 sbt run
@@ -58,7 +57,7 @@ docker-compose up -d
 
 ## productionモードで起動する
 
-```
+```bash
 sbt stage
 cd docker
 docker-compose up -f docker-compose.yml -f docker-compose-app.yml -d
